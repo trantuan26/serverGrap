@@ -17,6 +17,10 @@ module.exports = function(app) {
     app.route('/auth/register')
         .post(userHandles.register);
 
+
+    app.route('/auth/:email')
+        .put(userHandles.update_active);
+
     app.route('/auth/sign_in')
         .post(userHandles.sign_in);
 };
