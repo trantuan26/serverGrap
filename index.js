@@ -11,6 +11,11 @@ var express = require('express'),
 
 const config = require("./config");
 
+app.set('view engine','ejs');
+app.set('views','./views');
+app.use(express.static('public'));
+app.use(express.static('webpack'));
+
 mongoose.Promise = global.Promise;
 mongoose.connect(config.database);
 
@@ -30,14 +35,19 @@ app.use(function(req, res, next) {
         next();
     }
 });
+
 var routes = require('./routes/todoListRoutes');
 routes(app);
+
+app.get('/',(req, res)=>res.render('index'));
 
 app.use(function(req, res) {
     res.status(404).send({ url: req.originalUrl + ' not found' })
 });
 
 app.listen(port);
+
+
 
 console.log('todo list RESTful API server started on: ' + port);
 
